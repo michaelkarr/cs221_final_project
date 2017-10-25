@@ -1,0 +1,10 @@
+Dr. Seuss
+Recurrent neural networks
+Natural language processing
+rhyme scheme
+rhyme generation
+children's book
+picture book
+word generation
+make-up words
+LSTM
