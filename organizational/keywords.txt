@@ -1,10 +1,15 @@
 Dr. Seuss
 Recurrent neural networks
 Natural language processing
+machine learning
+n-grams
 rhyme scheme
 rhyme generation
 children's book
 picture book
 word generation
 make-up words
+syllable stress
+syllable splitting
+poetic verse
 LSTM
