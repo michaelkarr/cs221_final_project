@@ -1,22 +1,28 @@
 import random
+import glob
 
 ITERATION_LENGTH = 20
-FILES = ['cat_in_the_hat.txt']
+DIRECTORY = 'training_texts'
 N_VALUE = 3
 
 ngrams_dict = {}
 
+# get all text files in directory
+def get_files(directory):
+    return glob.glob('{}/*.txt'.format(directory))
+
 # read list of files 
-def Read_files(files):
+def read_files(files):
     string_list = []
     for file in files:
-        with open('training_texts/' + file, 'r') as myfile:
+        with open(file, 'r') as myfile:
+            print 'reading {}.....'.format(file)
             data=myfile.read().replace('\n', ' ')
             string_list.append(data)
     return string_list
 
 # generate n-grams dictionary to generate 
-def N_gram(n, string_list):
+def n_gram(n, string_list):
     for text in string_list:
         split = text.split()
         for i in range(len(split) - n + 1):
@@ -27,7 +33,7 @@ def N_gram(n, string_list):
                 ngrams_dict[key].append(split[i + n - 1].lower())
 
 # generates n-gram output from dictionary        
-def Generate_Ngram(iteration_length):
+def generate_Ngram(iteration_length):
     text = random.choice(ngrams_dict.keys())
     fill_string = text
     for i in range(iteration_length):
@@ -52,8 +58,9 @@ Limitations:
     - quotations and other context-specific punctuation
 '''
 
-string_list = Read_files(FILES)  # ['hello HOW are you doing today how']
-N_gram(N_VALUE, string_list)
-print 'Number of files analyzed: {}'.format(len(FILES))
+files = get_files(DIRECTORY)
+string_list = read_files(files)
+n_gram(N_VALUE, string_list)
+print 'Number of files analyzed: {}'.format(len(files))
 print '{}-gram of length {} generated: '.format(N_VALUE, ITERATION_LENGTH)
-print Generate_Ngram(ITERATION_LENGTH)
+print generate_Ngram(ITERATION_LENGTH)
