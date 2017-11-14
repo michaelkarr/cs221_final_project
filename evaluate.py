@@ -15,18 +15,21 @@ def evaluate_poem(poem):
         isSeussianRhyme = True
     return isSeussianStanza, isSeussianMeter, isSeussianRhyme
 
+#proportion of words from sight words list- 1st, 2nd, pre-k
 def count_words(poem):
-    sight_count = 0
+    sight_count = 0.0
     for word in poem:
-        if word in sight_set:
+        if word.lower() in sight_set:
             sight_count += 1
-#pass in generated poem as string
+    return sight_count / len(poem)
 
-sight_set = set()
-
+#finds stanza, meter, rhyme_type, checks if in seussian patterns
 poem_str = open(sys.argv[1], 'r').read()
 poem = poetrytools.tokenize(poem_str)
 stanza, meter, rhyme_type = evaluate_poem(poem)
+
+#finds proportion of words that are sight words
+sight_set = set(line.strip() for line in open('sightwords.txt'))
 poem_str = poem_str.replace("\n", " ")
 poem_list = poem_str.split(" ")
-count_words(filter(str.isalnum, poem_list))
+sight_prop = count_words(filter(str.isalnum, poem_list))
