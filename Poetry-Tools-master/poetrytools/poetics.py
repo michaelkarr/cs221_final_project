@@ -21,6 +21,7 @@ POSSIBLE_METRES = {
     'iambic tetrameter': '01010101',
     'iambic pentameter': '0101010101',
     'trochaic tetrameter': '10101010',
+    'anapestic tetrameter': '001001001001',
     'trochaic pentameter': '1010101010'
 }
 
