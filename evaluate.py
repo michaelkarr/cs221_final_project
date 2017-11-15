@@ -6,13 +6,13 @@ def evaluate_poem(poem):
     meter = poetrytools.guess_metre(poem)
     rhyme_type = poetrytools.guess_rhyme_type(poem)
     stanza = poetrytools.guess_stanza_type(poem)
-    isSeussianStanza = isSeussianMeter = isSeussianRhyme = False
+    isSeussianStanza = isSeussianMeter = isSeussianRhyme = 0
     if stanza[1] == 'quatrains':
-        isSeussianStanza = True
+        isSeussianStanza = 1
     if meter[3] == 'iambic trimeter' or meter[3] == 'iambic tetrameter' or meter[3] == 'anapestic tetrameter':
-        isSeussianMeter = True
+        isSeussianMeter = 1
     if rhyme_type[1] == 'seuss' or rhyme_type[1] == 'couplets' or rhyme_type[1]== 'alternate rhyme':
-        isSeussianRhyme = True
+        isSeussianRhyme = 1
     return isSeussianStanza, isSeussianMeter, isSeussianRhyme
 
 #proportion of words from sight words list- 1st, 2nd, pre-k
@@ -33,4 +33,8 @@ stanza, meter, rhyme_type = evaluate_poem(poem)
 sight_set = set(line.strip() for line in open('sightwords.txt'))
 poem_str = poem_str.replace("\n", " ")
 poem_list = poem_str.split(" ")
-sight_prop = count_words(filter(str.isalnum, poem_list))
+seussian_sight_prop = count_words(filter(str.isalnum, poem_list))
+
+#weights_vector starts as all 1
+features = [stanza, meter, rhyme_type, seussian_sight_prop]
+print(features)
