@@ -22,7 +22,7 @@ PAT PAT they call him Pat.
 PAT SAT Pat sat on hat.
 PAT CAT Pat sat on cat.
 PAT BAT Pat sat on bat.
-NO PAT NO Donât sit on that.
+NO PAT NO Don't sit on that.
 SAD DAD BAD HAD Dad is sad.
 Very, very sad.
 He had a bad day. What a day Dad had!
