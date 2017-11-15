@@ -21,7 +21,8 @@ def count_words(poem):
     for word in poem:
         if word.lower() in sight_set:
             sight_count += 1
-    return sight_count / len(poem)
+    sight_prop = sight_count / len(poem)
+    return 1 if sight_prop >= 0.6 and sight_prop <= 0.9 else 0
 
 #finds stanza, meter, rhyme_type, checks if in seussian patterns
 poem_str = open(sys.argv[1], 'r').read()
