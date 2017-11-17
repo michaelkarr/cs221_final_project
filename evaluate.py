@@ -2,14 +2,14 @@ import poetrytools
 import sys
 import random
 
-trainExamples = (("non_seuss_training_texts/cloud.txt", -1), ("non_seuss_training_texts/troy.txt", -1), ("non_seuss_training_texts/another_sky.txt", -1), ("non_seuss_training_texts/dream.txt", -1), ("non_seuss_training_texts/road_not_taken.txt", -1), ("non_seuss_training_texts/when_sidewalk_ends.txt", -1),
+trainExamples = (("non_seuss_training_texts/daddy.txt", -1), ("non_seuss_training_texts/cloud.txt", -1), ("non_seuss_training_texts/troy.txt", -1), ("non_seuss_training_texts/another_sky.txt", -1), ("non_seuss_training_texts/dream.txt", -1), ("non_seuss_training_texts/road_not_taken.txt", -1), ("non_seuss_training_texts/when_sidewalk_ends.txt", -1),
 ("training_texts/fox_in_socks.txt", 1), ("training_texts/cat_in_the_hat.txt", 1), ("training_texts/green_eggs_and_ham.txt", 1), ("training_texts/hop_on_pop.txt", 1),
 ("training_texts/oh_the_places_you'll_go.txt", 1), ("training_texts/one_fish_two_fish_red_fish_blue_fish.txt", 1)
 )
 sight_set = set(line.strip() for line in open('sightwords.txt'))
 weights = [random.uniform(0.0,1.0) for _ in xrange(4)]
-eta = 0.1
-numIters = 250
+eta = 0.05
+numIters = 400
 
 #returns 0 or 1 if seussian stanza, meter, and rhyme
 def evaluate_poem(poem):
@@ -17,9 +17,9 @@ def evaluate_poem(poem):
     rhyme_type = poetrytools.guess_rhyme_type(poem)
     stanza = poetrytools.guess_stanza_type(poem)
     isSeussianStanza = isSeussianMeter = isSeussianRhyme = 0
-    if stanza[1] == 'quatrains':
+    if stanza[1] == 'quatrains' or stanza[1] == 'sonnet':
         isSeussianStanza = 1
-    if meter[3] == 'iambic trimeter' or meter[3] == 'iambic tetrameter' or meter[3] == 'anapestic tetrameter':
+    if meter[3] == 'iambic trimeter' or meter[3] == 'iambic tetrameter' or meter[3] == 'anapestic tetrameter' or meter[3] == 'trochaic pentameter':
         isSeussianMeter = 1
     if rhyme_type[1] == 'seuss' or rhyme_type[1] == 'couplets' or rhyme_type[1]== 'alternate rhyme':
         isSeussianRhyme = 1
@@ -86,6 +86,10 @@ for i in range(numIters):
                 weights[idx] += (-1 * eta) * ret[idx]
 
 poem_str = open(sys.argv[1], 'r').read()
+# poem = poetrytools.tokenize(poem_str)
+# print(poetrytools.guess_stanza_type(poem))
+# print(poetrytools.guess_metre(poem))
+
 # for char in poem_str:
 #     print(is_ascii(char), char)
 features = get_features(poem_str)
