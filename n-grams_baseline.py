@@ -1,7 +1,7 @@
 import random
 import glob
 
-ITERATION_LENGTH = 20
+ITERATION_LENGTH = 30
 DIRECTORY = 'training_texts'
 N_VALUE = 3
 
