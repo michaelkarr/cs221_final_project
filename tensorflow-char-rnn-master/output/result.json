@@ -1,8 +1,8 @@
 {
-  "best_model": "output/best_model/model-45180", 
-  "best_valid_ppl": 4.347450256347656, 
+  "best_model": "output/best_model/model-25100", 
+  "best_valid_ppl": 4.420759201049805, 
   "encoding": "utf-8", 
-  "latest_model": "output/save_model/model-50200", 
+  "latest_model": "output/save_model/model-25100", 
   "params": {
     "batch_size": 20, 
     "dropout": 0.0, 
@@ -16,6 +16,6 @@
     "num_unrollings": 10, 
     "vocab_size": 65
   }, 
-  "test_ppl": 5.196173191070557, 
+  "test_ppl": 5.044465065002441, 
   "vocab_file": "output/vocab.json"
 }
