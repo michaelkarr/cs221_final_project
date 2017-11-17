@@ -9,7 +9,7 @@ trainExamples = (("non_seuss_training_texts/daddy.txt", -1), ("non_seuss_trainin
 sight_set = set(line.strip() for line in open('sightwords.txt'))
 weights = [random.uniform(0.0,1.0) for _ in xrange(4)]
 eta = 0.05
-numIters = 400
+numIters = 200
 
 #returns 0 or 1 if seussian stanza, meter, and rhyme
 def evaluate_poem(poem):
