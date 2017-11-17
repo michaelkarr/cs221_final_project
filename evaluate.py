@@ -2,7 +2,7 @@ import poetrytools
 import sys
 import random
 
-trainExamples = (("non_seuss_training_texts/another_sky.txt", -1), ("non_seuss_training_texts/dream.txt", -1), ("non_seuss_training_texts/road_not_taken.txt", -1), ("non_seuss_training_texts/when_sidewalk_ends.txt", -1),
+trainExamples = (("non_seuss_training_texts/cloud.txt", -1), ("non_seuss_training_texts/troy.txt", -1), ("non_seuss_training_texts/another_sky.txt", -1), ("non_seuss_training_texts/dream.txt", -1), ("non_seuss_training_texts/road_not_taken.txt", -1), ("non_seuss_training_texts/when_sidewalk_ends.txt", -1),
 ("training_texts/fox_in_socks.txt", 1), ("training_texts/cat_in_the_hat.txt", 1), ("training_texts/green_eggs_and_ham.txt", 1), ("training_texts/hop_on_pop.txt", 1),
 ("training_texts/oh_the_places_you'll_go.txt", 1), ("training_texts/one_fish_two_fish_red_fish_blue_fish.txt", 1)
 )
@@ -63,6 +63,19 @@ def sgd(feature, y):
             return retVec
         return 0
 
+def is_ascii(text):
+    if isinstance(text, unicode):
+        try:
+            text.encode('ascii')
+        except UnicodeEncodeError:
+            return False
+    else:
+        try:
+            text.decode('ascii')
+        except UnicodeDecodeError:
+            return False
+    return True
+
 for i in range(numIters):
     for x, y in trainExamples:
         poem_string = open(x, 'r').read()
@@ -73,6 +86,8 @@ for i in range(numIters):
                 weights[idx] += (-1 * eta) * ret[idx]
 
 poem_str = open(sys.argv[1], 'r').read()
+# for char in poem_str:
+#     print(is_ascii(char), char)
 features = get_features(poem_str)
 print(classifier(features))
 print(weights)
