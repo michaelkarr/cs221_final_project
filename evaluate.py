@@ -8,8 +8,8 @@ trainExamples = (("non_seuss_training_texts/cloud.txt", -1), ("non_seuss_trainin
 )
 sight_set = set(line.strip() for line in open('sightwords.txt'))
 weights = [random.uniform(0.0,1.0) for _ in xrange(4)]
-eta = 0.01
-numIters = 100
+eta = 0.1
+numIters = 250
 
 #returns 0 or 1 if seussian stanza, meter, and rhyme
 def evaluate_poem(poem):
@@ -44,12 +44,12 @@ def get_features(poem_str):
     poem_list = poem_str.split(" ")
     seussian_sight_prop = count_words(filter(str.isalnum, poem_list))
 
-    #weights_vector starts as all 1
     features = [stanza, meter, rhyme_type, seussian_sight_prop] #for generated text
     return features
 
 def classifier(x):
         dp = sum(i[0] * i[1] for i in zip(weights, x))
+        print(dp)
         if dp > 0: return 1
         else: return -1
 
@@ -89,5 +89,6 @@ poem_str = open(sys.argv[1], 'r').read()
 # for char in poem_str:
 #     print(is_ascii(char), char)
 features = get_features(poem_str)
+print(features)
 print(classifier(features))
 print(weights)
