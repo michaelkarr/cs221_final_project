@@ -48,7 +48,7 @@ def main():
                         help='which model to use (rnn, lstm or gru).')
     
     # Parameters to control the training.
-    parser.add_argument('--num_epochs', type=int, default=10,
+    parser.add_argument('--num_epochs', type=int, default=5,
                         help='number of epochs')
     parser.add_argument('--batch_size', type=int, default=20,
                         help='minibatch size')
