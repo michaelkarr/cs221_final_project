@@ -1,6 +1,5 @@
 """
-Minimal character-level Vanilla RNN model. Written by Andrej Karpathy (@karpathy)
-BSD License
+Minimal character-level Vanilla RNN model. Adjusted from Andrej Karpathy's (@karpathy) post
 """
 import numpy as np
 import glob
