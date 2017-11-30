@@ -4,14 +4,20 @@ Minimal character-level Vanilla RNN model. Adjusted from Andrej Karpathy's (@kar
 import numpy as np
 import glob
 
-# data I/O
+"""
+Data input from multiple files in directory
+@var data - concatenated string of all texts used to train
+"""
 data = ''
 for file in glob.glob('{}/*.txt'.format('training_texts')):
   with open(file, 'r') as myfile:
     print 'reading {}.....'.format(file)
-    temp = myfile.read()  # .replace('\n', ' ')
+    temp = myfile.read()  # .replace('\n', ' ') appended to read function to eliminate 
     data += temp
-data = open('training_texts/cat_in_the_hat.txt', 'r').read() # should be simple plain text file
+# use following line for single data source reading
+# data = open('training_texts/cat_in_the_hat.txt', 'r').read()
+
+# create array of characters and see length
 chars = list(set(data))
 data_size, vocab_size = len(data), len(chars)
 print 'data has %d characters, %d unique.' % (data_size, vocab_size)
@@ -88,7 +94,7 @@ n, p = 0, 0
 mWxh, mWhh, mWhy = np.zeros_like(Wxh), np.zeros_like(Whh), np.zeros_like(Why)
 mbh, mby = np.zeros_like(bh), np.zeros_like(by) # memory variables for Adagrad
 smooth_loss = -np.log(1.0/vocab_size)*seq_length # loss at iteration 0
-while True:
+while n <= 1000000:
   # prepare inputs (we're sweeping from left to right in steps seq_length long)
   if p+seq_length+1 >= len(data) or n == 0: 
     hprev = np.zeros((hidden_size,1)) # reset RNN memory
