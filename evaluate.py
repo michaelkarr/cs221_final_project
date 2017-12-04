@@ -7,8 +7,8 @@ trainExamples = (("non_seuss_training_texts/daddy.txt", -1), ("non_seuss_trainin
 ("training_texts/oh_the_places_you'll_go.txt", 1), ("training_texts/one_fish_two_fish_red_fish_blue_fish.txt", 1)
 )
 sight_set = set(line.strip() for line in open('sightwords.txt'))
-weights = [random.uniform(0.0,1.0) for _ in xrange(4)]
-eta = 0.05
+weights = [0] * 4
+eta = 0.1
 numIters = 200
 
 #returns 0 or 1 if seussian stanza, meter, and rhyme

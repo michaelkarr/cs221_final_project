@@ -39,32 +39,50 @@ def read_batches(T, vocab_size):
 				Y[batch_idx, i, T[batch_chars * batch_idx + start + i + 1]] = 1
 		yield X, Y
 
-def train(text, epochs=100, save_freq=10):
-	char_to_idx = { ch: i for (i, ch) in enumerate(sorted(list(set(text)))) }
-	with open(os.path.join(DATA_DIR, 'char_to_idx.json'), 'w') as f:
-		json.dump(char_to_idx, f)
+def train(text1, text2, epochs=100, save_freq=10):
+	text1 = unicode(text1, errors='ignore')
+	text2 = unicode(text2, errors='ignore')
 
-	idx_to_char = { i: ch for (ch, i) in char_to_idx.items() }
-	vocab_size = len(char_to_idx)
+	char_to_idx1 = { ch: i for (i, ch) in enumerate(sorted(list(set(text1)))) }
+	char_to_idx2 = { ch: i for (i, ch) in enumerate(sorted(list(set(text2)))) }
+
+	with open(os.path.join(DATA_DIR, 'char_to_idx1.json'), 'w') as f1:
+		json.dump(char_to_idx1, f1)
+
+	with open(os.path.join(DATA_DIR, 'char_to_idx2.json'), 'w') as f2:
+		json.dump(char_to_idx2, f2)
+
+	idx_to_char1 = { i: ch for (ch, i) in char_to_idx1.items() }
+	idx_to_char2 = { i: ch for (ch, i) in char_to_idx2.items() }
+
+	vocab_size = len(char_to_idx1)
 
 	model = build_model(BATCH_SIZE, SEQ_LENGTH, vocab_size)
 	model.summary()
 	model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
-	T = np.asarray([char_to_idx[c] for c in text], dtype=np.int32)
-	steps_per_epoch = (len(text) / BATCH_SIZE - 1) / SEQ_LENGTH
+	T1 = np.asarray([char_to_idx1[c] for c in text1], dtype=np.int32)
+	T2 = np.asarray([char_to_idx2[c] for c in text2], dtype=np.int32)
+
+	# steps_per_epoch = (len(text2) / BATCH_SIZE - 1) / SEQ_LENGTH
 	log = TrainLogger('training_log.csv')
 
 	for epoch in range(epochs):
 		print '\nEpoch {}/{}'.format(epoch + 1, epochs)
 
 		losses, accs = [], []
-
-		for i, (X, Y) in enumerate(read_batches(T, vocab_size)):
-			loss, acc = model.train_on_batch(X, Y)
-			print 'Batch {}: loss = {}, acc = {}'.format(i + 1, loss, acc)
-			losses.append(loss)
-			accs.append(acc)
+		if epoch < 15:
+			for i, (X, Y) in enumerate(read_batches(T1, vocab_size)):
+				loss, acc = model.train_on_batch(X, Y)
+				print 'Batch {}: loss = {}, acc = {}'.format(i + 1, loss, acc)
+				losses.append(loss)
+				accs.append(acc)
+		else:
+			for i, (X, Y) in enumerate(read_batches(T2, vocab_size)):
+				loss, acc = model.train_on_batch(X, Y)
+				print 'Batch {}: loss = {}, acc = {}'.format(i + 1, loss, acc)
+				losses.append(loss)
+				accs.append(acc)
 
 		log.add_entry(np.average(losses), np.average(accs))
 
@@ -82,4 +100,4 @@ if __name__ == '__main__':
 	if not os.path.exists(LOG_DIR):
 		os.makedirs(LOG_DIR)
 
-	model = train(open(os.path.join(DATA_DIR, args.input)).read(), args.epochs, args.freq)
+	model = train(open(os.path.join(DATA_DIR, "non_seuss.txt")).read(), open(os.path.join(DATA_DIR, "all_seuss.txt")).read(), args.epochs, args.freq)
