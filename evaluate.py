@@ -1,6 +1,7 @@
 import poetrytools
 import sys
 import random
+from textblob import TextBlob
 
 trainExamples = (("non_seuss_training_texts/daddy.txt", -1), ("non_seuss_training_texts/cloud.txt", -1), ("non_seuss_training_texts/troy.txt", -1), ("non_seuss_training_texts/another_sky.txt", -1), ("non_seuss_training_texts/dream.txt", -1), ("non_seuss_training_texts/road_not_taken.txt", -1), ("non_seuss_training_texts/when_sidewalk_ends.txt", -1),
 ("training_texts/fox_in_socks.txt", 1), ("training_texts/cat_in_the_hat.txt", 1), ("training_texts/green_eggs_and_ham.txt", 1), ("training_texts/hop_on_pop.txt", 1),
@@ -45,6 +46,14 @@ def get_features(poem_str):
     poem_list = poem_str.split(" ")
     seussian_sight_prop = count_words(filter(str.isalnum, poem_list))
 
+    # analysis = TextBlob(poem_str)
+    # if analysis.sentiment.polarity > 0:
+    #     sentiment = 1
+    # elif analysis.sentiment.polarity == 0:
+    #     sentiment = 0
+    # else:
+    #     sentiment = -1
+
     features = [stanza, meter, rhyme_type, seussian_sight_prop] #for generated text
     return features
 
@@ -87,6 +96,7 @@ for i in range(numIters):
                 weights[idx] += (-1 * eta) * ret[idx]
 
 error = 0
+print(weights)
 for x, y in testExamples:
     poem_string = open(x, 'r').read()
     feature = get_features(poem_string)
