@@ -1,11 +1,13 @@
 import poetrytools
 import sys
 import random
+from textblob import TextBlob
 
 trainExamples = (("non_seuss_training_texts/daddy.txt", -1), ("non_seuss_training_texts/cloud.txt", -1), ("non_seuss_training_texts/troy.txt", -1), ("non_seuss_training_texts/another_sky.txt", -1), ("non_seuss_training_texts/dream.txt", -1), ("non_seuss_training_texts/road_not_taken.txt", -1), ("non_seuss_training_texts/when_sidewalk_ends.txt", -1),
 ("training_texts/fox_in_socks.txt", 1), ("training_texts/cat_in_the_hat.txt", 1), ("training_texts/green_eggs_and_ham.txt", 1), ("training_texts/hop_on_pop.txt", 1),
 ("training_texts/oh_the_places_you'll_go.txt", 1), ("training_texts/one_fish_two_fish_red_fish_blue_fish.txt", 1)
 )
+testExamples = (("test_text/brown.txt", 1), ("test_text/eulalie.txt", -1), ("test_text/foot.txt", 1), ("test_text/horton.txt", 1), ("test_text/turtle.txt", 1), ("test_text/wocket.txt", 1), ("test_text/shakespeare.txt", -1), ("test_text/cummings.txt", -1))
 sight_set = set(line.strip() for line in open('sightwords.txt'))
 weights = [0] * 4
 eta = 0.1
@@ -43,6 +45,14 @@ def get_features(poem_str):
     poem_str = poem_str.replace("\n", " ")
     poem_list = poem_str.split(" ")
     seussian_sight_prop = count_words(filter(str.isalnum, poem_list))
+
+    # analysis = TextBlob(poem_str)
+    # if analysis.sentiment.polarity > 0:
+    #     sentiment = 1
+    # elif analysis.sentiment.polarity == 0:
+    #     sentiment = 0
+    # else:
+    #     sentiment = -1
 
     features = [stanza, meter, rhyme_type, seussian_sight_prop] #for generated text
     return features
@@ -85,14 +95,11 @@ for i in range(numIters):
             for idx, entry in enumerate(weights):
                 weights[idx] += (-1 * eta) * ret[idx]
 
-poem_str = open(sys.argv[1], 'r').read()
-# poem = poetrytools.tokenize(poem_str)
-# print(poetrytools.guess_stanza_type(poem))
-# print(poetrytools.guess_metre(poem))
-
-# for char in poem_str:
-#     print(is_ascii(char), char)
-features = get_features(poem_str)
-print(features)
-print(classifier(features))
+error = 0
 print(weights)
+for x, y in testExamples:
+    poem_string = open(x, 'r').read()
+    feature = get_features(poem_string)
+    if classifier(feature) != y:
+        error += 1
+print(1.0 * error / len(testExamples))
