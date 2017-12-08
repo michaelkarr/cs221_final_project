@@ -1,3 +1,4 @@
+0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~
 One fish, Two fish, Red fish, Blue fish,
 Black fish, Blue fish, Old fish, New fish.
 This one has a little car.

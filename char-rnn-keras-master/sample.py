@@ -10,18 +10,18 @@ from model import build_model, load_weights
 DATA_DIR = './data'
 
 def sample(epoch, header, num_chars):
-	with open(os.path.join(DATA_DIR, 'char_to_idx.json')) as f:
-		char_to_idx = json.load(f)
-	idx_to_char = { i: ch for (ch, i) in char_to_idx.items() }
-	vocab_size = len(char_to_idx)
+	with open(os.path.join(DATA_DIR, 'char_to_idx2.json')) as f:
+		char_to_idx2 = json.load(f)
+	idx_to_char2 = { i: ch for (ch, i) in char_to_idx2.items() }
+	vocab_size = len(char_to_idx2)
 
 	model = build_model(1, 1, vocab_size)
 	load_weights(epoch, model)
 
-	sampled = [char_to_idx[c] for c in header]
+	sampled = [char_to_idx2[c] for c in header]
 	for c in header[:-1]:
 		batch = np.zeros((1, 1))
-		batch[0, 0] = char_to_idx[c]
+		batch[0, 0] = char_to_idx2[c]
 		model.predict_on_batch(batch)
 
 	for i in range(num_chars):
@@ -34,7 +34,7 @@ def sample(epoch, header, num_chars):
 		sample = np.random.choice(range(vocab_size), p=result)
 		sampled.append(sample)
 
-	print ''.join(idx_to_char[c] for c in sampled)
+	print ''.join(idx_to_char2[c] for c in sampled)
 
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser(description='Sample some text from the trained model.')
