@@ -1,0 +1,10 @@
+name: seuss-classifier
+tag: latest
+image: python3    # Docker environment to run the model with.
+input_space:            # Input type annotations.
+  poem_str: str
+output_space:           # Output type annotations.
+  seussian: str
+main:                   # Main entrypoint to serve the model.
+  type: python
+  entrypoint: serve.py::predict

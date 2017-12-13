@@ -7,7 +7,8 @@ trainExamples = (("non_seuss_training_texts/daddy.txt", -1), ("non_seuss_trainin
 ("training_texts/fox_in_socks.txt", 1), ("training_texts/cat_in_the_hat.txt", 1), ("training_texts/green_eggs_and_ham.txt", 1), ("training_texts/hop_on_pop.txt", 1),
 ("training_texts/oh_the_places_you'll_go.txt", 1), ("training_texts/one_fish_two_fish_red_fish_blue_fish.txt", 1)
 )
-testExamples = (("test_text/brown.txt", 1), ("test_text/eulalie.txt", -1), ("test_text/foot.txt", 1), ("test_text/horton.txt", 1), ("test_text/turtle.txt", 1), ("test_text/wocket.txt", 1), ("test_text/shakespeare.txt", -1), ("test_text/cummings.txt", -1))
+testExamples = (("test_text/brown.txt", 1), ("test_text/eulalie.txt", -1), ("test_text/foot.txt", 1), ("test_text/horton.txt", 1), ("test_text/turtle.txt", 1), ("test_text/wocket.txt", 1), ("test_text/shakespeare.txt", -1), ("test_text/cummings.txt", -1), ("test_text/kaur.txt", -1), ("test_text/reeves.txt", -1), ("test_text/eggs.txt", 1),
+("test_text/catback.txt", 1), ("test_text/power.txt", -1), ("test_text/marvin.txt", 1), ("test_text/hatch.txt", 1))
 sight_set = set(line.strip() for line in open('sightwords.txt'))
 weights = [0] * 4
 eta = 0.1
@@ -96,10 +97,11 @@ for i in range(numIters):
                 weights[idx] += (-1 * eta) * ret[idx]
 
 error = 0
-print(weights)
+#8 seuss test, #7 non-seuss test -> 3/8 seuss error, 2/7 seuss
 for x, y in testExamples:
     poem_string = open(x, 'r').read()
     feature = get_features(poem_string)
+    print(x, feature)
     if classifier(feature) != y:
         error += 1
 print(1.0 * error / len(testExamples))
