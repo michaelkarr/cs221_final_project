@@ -1,10 +1,6 @@
 # CS 221 Final Project - Michael Karr and Allison Tielking
 Welcome to our final project read me! Here, we will explain what each folder of our project is supposed to do.
 
-### Poetry-Tools-Master
-
-This holds our copy of the poetry tools library, which we edited to include checks for Seussian rhyme scheme and stanza that were not already part of the library. We specifically added anapestic tetrameter and seussian rhyme under the poetrytools/poetics.py folder.
-
 ### Main Folder
 #### evaluate.py
 
@@ -23,6 +19,11 @@ This program will sample at every 100 cycles for 200 characters.
 #### n-grams_baseline.py
 
 This is our baseline implementation that uses n-grams to generate Seussian text.
+
+### Poetry-Tools-Master
+
+This holds our copy of the poetry tools library, which we edited to include checks for Seussian rhyme scheme and stanza that were not already part of the library. We specifically added anapestic tetrameter and seussian rhyme under the poetrytools/poetics.py folder.
+
 ### char-rnn-keras-master
 
 This holds the current version of our model, the Keras multi-corpus RNN with a sequence length of 64. After doing research on various models from Github, we combined the best ideas into one program that we could understand. This code is written using Python 2, and you must install the [Keras](https://keras.io) deep learning library to run. To train the model with default settings: 
