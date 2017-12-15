@@ -58,7 +58,7 @@ def get_features(poem_str):
     features = [stanza, meter, rhyme_type, seussian_sight_prop] #for generated text
     return features
 
-def classifier(x):
+def classifier(x): #dot product of weight and feature vector, returns classification
         dp = sum(i[0] * i[1] for i in zip(weights, x))
         print(dp)
         if dp > 0: return 1
@@ -74,7 +74,7 @@ def sgd(feature, y):
             return retVec
         return 0
 
-def is_ascii(text):
+def is_ascii(text): #checks if each character has an ascii encoding, used to clean up test/training text
     if isinstance(text, unicode):
         try:
             text.encode('ascii')
@@ -87,7 +87,7 @@ def is_ascii(text):
             return False
     return True
 
-for i in range(numIters):
+for i in range(numIters): #sgd to optimize training weights
     for x, y in trainExamples:
         poem_string = open(x, 'r').read()
         feature = get_features(poem_string)
@@ -98,7 +98,7 @@ for i in range(numIters):
 
 error = 0
 #8 seuss test, #7 non-seuss test -> 3/8 seuss error, 2/7 seuss
-for x, y in testExamples:
+for x, y in testExamples: #gets test error
     poem_string = open(x, 'r').read()
     feature = get_features(poem_string)
     print(x, feature)
