@@ -9,7 +9,9 @@ from model import build_model, load_weights
 
 DATA_DIR = './data'
 
+# sample the most recent model
 def sample(epoch, header, num_chars):
+	# get the character dictionary and build the character-index dict
 	with open(os.path.join(DATA_DIR, 'char_to_idx2.json')) as f:
 		char_to_idx2 = json.load(f)
 	idx_to_char2 = { i: ch for (ch, i) in char_to_idx2.items() }
@@ -18,12 +20,14 @@ def sample(epoch, header, num_chars):
 	model = build_model(1, 1, vocab_size)
 	load_weights(epoch, model)
 
+	# header implementation if needed
 	sampled = [char_to_idx2[c] for c in header]
 	for c in header[:-1]:
 		batch = np.zeros((1, 1))
 		batch[0, 0] = char_to_idx2[c]
 		model.predict_on_batch(batch)
 
+	# sample until parameter
 	for i in range(num_chars):
 		batch = np.zeros((1, 1))
 		if sampled:
